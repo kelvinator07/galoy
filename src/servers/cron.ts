@@ -18,6 +18,7 @@ import { setupMongoConnection } from "@services/mongodb"
 import { SpecterWallet } from "@core/specter-wallet"
 import { activateLndHealthCheck } from "@services/lnd/health"
 import { Wallets } from "@app"
+import { updateLnPayments } from "@app/lightning"
 
 const logger = baseLogger.child({ module: "cron" })
 
@@ -54,6 +55,11 @@ const main = async () => {
         await deleteExpiredInvoiceUser()
       }
 
+      const updateLnPaymentsCollection = async () => {
+        const result = await updateLnPayments()
+        if (result instanceof Error) throw result
+      }
+
       const tasks = [
         updateEscrows,
         updatePendingLightningInvoices,
@@ -63,6 +69,7 @@ const main = async () => {
         rebalance,
         updateRoutingFees,
         updateOnChainReceipt,
+        updateLnPaymentsCollection,
       ]
 
       for (const task of tasks) {
