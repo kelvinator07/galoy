@@ -1,7 +1,7 @@
 import { GT } from "@graphql/index"
 import { UserInputError } from "apollo-server-errors"
 
-const OnChainTxHash = new GT.Scalar({
+const OnChainTxHash = GT.Scalar({
   name: "OnChainTxHash",
   parseValue(value) {
     return validOnChainTxHash(value)

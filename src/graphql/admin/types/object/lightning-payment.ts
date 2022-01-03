@@ -6,7 +6,7 @@ import LnPaymentSecret from "@graphql/types/scalar/ln-payment-secret"
 import LnPaymentStatus from "@graphql/types/scalar/ln-payment-status"
 import LnPaymentRequest from "@graphql/types/scalar/ln-payment-request"
 
-const LightningPayment = new GT.Object({
+const LightningPayment = GT.Object({
   name: "LightningPayment",
   fields: () => ({
     status: { type: LnPaymentStatus },

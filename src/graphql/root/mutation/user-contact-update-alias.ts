@@ -5,7 +5,7 @@ import ContactAlias from "@graphql/types/scalar/contact-alias"
 import { Users } from "@app"
 import UserContactUpdateAliasPayload from "@graphql/types/payload/user-contact-update-alias"
 
-const UserContactUpdateAliasInput = new GT.Input({
+const UserContactUpdateAliasInput = GT.Input({
   name: "UserContactUpdateAliasInput",
   fields: () => ({
     username: { type: GT.NonNull(Username) },

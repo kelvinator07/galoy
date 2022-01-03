@@ -1,7 +1,7 @@
 import dedent from "dedent"
 import { GT } from "@graphql/index"
 
-const Globals = new GT.Object({
+const Globals = GT.Object({
   name: "Globals",
   description:
     "Provides global settings for the application which might have an impact for the user.",

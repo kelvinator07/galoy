@@ -1,7 +1,7 @@
 import { GT } from "@graphql/index"
 import { UserInputError } from "apollo-server-errors"
 
-const PaymentHash = new GT.Scalar({
+const PaymentHash = GT.Scalar({
   name: "PaymentHash",
   parseValue(value) {
     return validPaymentHash(value)
