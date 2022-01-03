@@ -85,11 +85,11 @@ const translateWalletTx = (txs: WalletTransaction[]) => {
 
 const resolvers = {
   Query: {
-    me: (_, __, { uid, user, ip, domainUser }) =>
+    me: (_, __, { uid, user, ip, domainUser, domainAccount }) =>
       addAttributesToCurrentSpanAndPropagate(
         {
           [SemanticAttributes.ENDUSER_ID]: domainUser?.id,
-          [ENDUSER_ALIAS]: domainUser?.username,
+          [ENDUSER_ALIAS]: domainAccount?.username,
           [SemanticAttributes.HTTP_CLIENT_IP]: ip,
         },
         async () => {
@@ -308,11 +308,15 @@ const resolvers = {
         if (result instanceof Error) throw result
         return result
       },
-      payInvoice: async ({ invoice, amount, memo }, _, { ip, domainUser }) =>
+      payInvoice: async (
+        { invoice, amount, memo },
+        _,
+        { ip, domainUser, domainAccount },
+      ) =>
         addAttributesToCurrentSpanAndPropagate(
           {
             [SemanticAttributes.ENDUSER_ID]: domainUser?.id,
-            [ENDUSER_ALIAS]: domainUser?.username,
+            [ENDUSER_ALIAS]: domainAccount?.username,
             [SemanticAttributes.HTTP_CLIENT_IP]: ip,
           },
           async () => {
