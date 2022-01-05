@@ -49,6 +49,12 @@ const gqlResponseHook = (span: Span, data: graphqlTypes.ExecutionResult) => {
 }
 
 const recordGqlErrors = ({ errors, span, subPathName }) => {
+  const configuredSpan = setupGqlErrorSpan({ errors, span, subPathName })
+  setAttributesFirstGqlError({ errors, span: configuredSpan, subPathName })
+  setAttributesAllGqlErrorsByIndex({ errors, span: configuredSpan, subPathName })
+}
+
+const setupGqlErrorSpan = ({ errors, span, subPathName }) => {
   const subPath = subPathName ? `${subPathName}.` : ""
 
   span.recordException({
@@ -58,6 +64,13 @@ const recordGqlErrors = ({ errors, span, subPathName }) => {
   span.setStatus({
     code: SpanStatusCode.ERROR,
   })
+
+  return span
+}
+
+const setAttributesFirstGqlError = ({ errors, span, subPathName }) => {
+  const subPath = subPathName ? `${subPathName}.` : ""
+
   const firstErr = errors[0]
   if (firstErr.message != "") {
     span.setAttribute(`graphql.${subPath}error.message`, firstErr.message)
@@ -85,6 +98,11 @@ const recordGqlErrors = ({ errors, span, subPathName }) => {
       )
     }
   }
+}
+
+const setAttributesAllGqlErrorsByIndex = ({ errors, span, subPathName }) => {
+  const subPath = subPathName ? `${subPathName}.` : ""
+
   errors.forEach((err, idx) => {
     if (err.message != "") {
       span.setAttribute(`graphql.${subPath}error.${idx}.message`, err.message)
