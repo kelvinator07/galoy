@@ -82,6 +82,11 @@ type AddLnTxSendArgs = LnTxArgs & {
   feeKnownInAdvance: boolean
 }
 
+type AddOnChainTxSendArgs = OnChainTxArgs & {
+  sendAll: boolean
+  bankFee: Satoshis
+}
+
 type IntraledgerTxArgs = {
   senderWalletId: WalletId
   description: string

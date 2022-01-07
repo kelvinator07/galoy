@@ -101,3 +101,12 @@ type IntraLedgerPaymentSendWalletIdArgs = PaymentSendArgs & {
 type IntraLedgerPaymentSendWithTwoFAArgs = IntraLedgerPaymentSendUsernameArgs & {
   twoFAToken: TwoFAToken
 }
+
+type PayOnChainByWalletIdArgs = {
+  senderWalletId: WalletId
+  amount: number
+  address: string
+  targetConfirmations: number
+  memo: string | null
+  sendAll: boolean
+}
