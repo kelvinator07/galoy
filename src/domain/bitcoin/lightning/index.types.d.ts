@@ -74,7 +74,7 @@ type LnInvoice = {
 type RegisterInvoiceArgs = {
   description: string
   descriptionHash?: string
-  satoshis: Satoshis
+  sats: Satoshis
   expiresAt: InvoiceExpiration
 }
 

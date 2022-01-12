@@ -166,7 +166,7 @@ export const LndService = (): ILightningService | LightningServiceError => {
   }
 
   const registerInvoice = async ({
-    satoshis,
+    sats,
     description,
     descriptionHash,
     expiresAt,
@@ -175,7 +175,7 @@ export const LndService = (): ILightningService | LightningServiceError => {
       lnd: lndAuth,
       description,
       description_hash: descriptionHash,
-      tokens: satoshis as number,
+      tokens: sats as number,
       expires_at: expiresAt.toISOString(),
     }
 
