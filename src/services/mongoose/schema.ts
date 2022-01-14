@@ -47,7 +47,7 @@ const invoiceUserSchema = new Schema({
 
   // usd equivalent. sats is attached in the invoice directly.
   // optional, as BTC wallet doesn't have to set a sat amount when creating the invoice
-  usd: Number,
+  fiat: Number,
 
   timestamp: {
     type: Date,

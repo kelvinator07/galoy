@@ -1,17 +1,20 @@
 type addInvoiceByWalletIdArgs = {
-  walletId: WalletId
+  walletId: string
   amount: number
   memo?: string
 }
 
 type AddInvoiceArgs = {
-  wallet: Wallet
+  walletInvoiceCreateFn: (
+    registeredInvoice: RegisteredInvoice,
+  ) => (fiat: FiatAmount | null) => WalletInvoice
   amount: number
   memo?: string
+  descriptionHash?: string
 }
 
 type AddInvoiceNoAmountByWalletIdArgs = {
-  walletId: WalletId
+  walletId: string
   memo?: string
 }
 
@@ -21,14 +24,14 @@ type AddInvoiceNoAmountArgs = {
 }
 
 type AddInvoiceForRecipientArgs = {
-  recipientWalletId: WalletId
+  recipientWalletId: string
   amount: number
   memo?: string
   descriptionHash?: string
 }
 
 type AddInvoiceNoAmountForRecipientArgs = {
-  recipientWalletId: WalletId
+  recipientWalletId: string
   memo?: string
 }
 

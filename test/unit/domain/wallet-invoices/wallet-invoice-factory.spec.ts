@@ -25,7 +25,7 @@ describe("wallet invoice factory methods", () => {
       pubkey: "pubkey" as Pubkey,
       descriptionHash: "descriptionHash" as string, // FIXME
     }
-    const result = walletInvoiceFactory.create(registeredInvoice)
+    const result = walletInvoiceFactory.createForSelf(registeredInvoice)
     const expected = {
       paymentHash: "paymentHash",
       walletId: "id",

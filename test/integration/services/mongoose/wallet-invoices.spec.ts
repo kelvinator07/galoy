@@ -24,6 +24,7 @@ const createTestWalletInvoice = () => {
     selfGenerated: false,
     pubkey: "pubkey" as Pubkey,
     paid: false,
+    fiat: 10 as FiatAmount,
   }
 }
 
@@ -49,7 +50,6 @@ describe("WalletInvoices", () => {
     const invoiceToUpdate = persistResult as WalletInvoice
     invoiceToUpdate.paid = true
     const updatedResult = await repo.update(invoiceToUpdate)
-    console.log({ updatedResult })
     expect(updatedResult).not.toBeInstanceOf(Error)
     expect(updatedResult).toHaveProperty("paid", true)
 

@@ -7,6 +7,7 @@ describe("WalletInvoiceValidator", () => {
     walletId: "toWalletId" as WalletId,
     selfGenerated: false,
     pubkey: "pubkey" as Pubkey,
+    fiat: 10 as FiatAmount,
     paid: false,
   }
   const fromWalletId = "fromWalletId" as WalletId

@@ -2,6 +2,7 @@ import { Wallets } from "@app"
 import { getWallet } from "@app/wallets"
 import { checkedToUsername } from "@domain/accounts"
 import { checkedToSats, toSats } from "@domain/bitcoin"
+import { invoiceExpirationForCurrency } from "@domain/bitcoin/lightning"
 import { WalletInvoiceFactory } from "@domain/wallet-invoices/wallet-invoice-factory"
 import { AccountsRepository } from "@services/mongoose"
 
@@ -36,10 +37,14 @@ export const addInvoiceForUsername = async ({
   if (sats instanceof Error) return sats
 
   const walletInvoiceFactory = WalletInvoiceFactory(walletId)
+  const expiresAt = invoiceExpirationForCurrency("BTC", new Date())
+
   return Wallets.registerAndPersistInvoice({
     sats,
     memo,
     walletInvoiceCreateFn: walletInvoiceFactory.createForRecipient,
+    expiresAt,
+    fiat: null,
   })
 }
 
@@ -60,9 +65,13 @@ export const addInvoiceNoAmountForUsername = async ({
   if (limitOk instanceof Error) return limitOk
 
   const walletInvoiceFactory = WalletInvoiceFactory(walletId)
+  const expiresAt = invoiceExpirationForCurrency("BTC", new Date())
+
   return Wallets.registerAndPersistInvoice({
     sats: toSats(0),
     memo,
     walletInvoiceCreateFn: walletInvoiceFactory.createForRecipient,
+    expiresAt,
+    fiat: null,
   })
 }

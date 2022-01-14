@@ -13,6 +13,7 @@ export const WalletInvoicesRepository = (): IWalletInvoicesRepository => {
     selfGenerated,
     pubkey,
     paid,
+    fiat,
   }: WalletInvoice): Promise<WalletInvoice | RepositoryError> => {
     try {
       const invoiceUser = await new InvoiceUser({
@@ -21,6 +22,7 @@ export const WalletInvoicesRepository = (): IWalletInvoicesRepository => {
         selfGenerated,
         pubkey,
         paid,
+        fiat,
       }).save()
       return walletInvoiceFromRaw(invoiceUser)
     } catch (err) {
@@ -146,4 +148,5 @@ const walletInvoiceFromRaw = (result): WalletInvoice => ({
   selfGenerated: result.selfGenerated,
   pubkey: result.pubkey as Pubkey,
   paid: result.paid,
+  fiat: result.fiat as FiatAmount,
 })
