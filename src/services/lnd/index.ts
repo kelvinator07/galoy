@@ -36,8 +36,6 @@ import { LndOfflineError } from "@core/error"
 
 import { timeout } from "@utils"
 
-import { baseLogger } from "@services/logger"
-
 import { TIMEOUT_PAYMENT } from "./auth"
 import { getActiveLnd, getLndFromPubkey, getLnds } from "./utils"
 
@@ -304,19 +302,15 @@ export const LndService = (): ILightningService | LightningServiceError => {
 
   const listSettledAndFailedPaymentsByPubkeyPaginated = async (
     cursors: ListSettledAndFailedLnPaymentsByPubkeyPaginatedArgs,
-  ) => {
-    const result: ListSettledAndFailedLnPaymentsByPubkeyPaginatedResult = {}
+  ): Promise<ListSettledAndFailedLnPaymentsByPubkeyPaginatedResult> => {
+    const nullListLnPaymentsResult: ListLnPaymentsResult = {
+      lnPayments: [],
+      endCursor: false,
+    }
 
-    for (const key in cursors) {
-      const pubkey = key as Pubkey
-      const { settledCursor, failedCursor } = cursors[pubkey]
-
-      const nullListLnPaymentsResult: ListLnPaymentsResult = {
-        lnPayments: [],
-        endCursor: false,
-      }
-
-      result[pubkey] = {
+    return Promise.all(
+      cursors.map(async ({ pubkey, settledCursor, failedCursor }) => ({
+        pubkey,
         settled:
           settledCursor !== false
             ? await listSettledPayments({
@@ -331,10 +325,8 @@ export const LndService = (): ILightningService | LightningServiceError => {
                 pubkey,
               })
             : nullListLnPaymentsResult,
-      }
-    }
-
-    return result
+      })),
+    )
   }
 
   const cancelInvoice = async ({
