@@ -47,7 +47,7 @@ beforeAll(async () => {
   await bitcoindClient.loadWallet({ filename: "outside" })
   await createMandatoryUsers()
   await createUserWallet(0)
-  walletId = await getDefaultWalletIdByTestUserIndex(USER_INDEX)
+
   await fundWalletIdFromLightning({ walletId, amount: toSats(50_000) })
   await startServer()
   ;({ apolloClient, disposeClient } = createApolloClient(defaultTestClientConfig()))
@@ -58,6 +58,7 @@ beforeAll(async () => {
   ;({ apolloClient, disposeClient } = createApolloClient(
     defaultTestClientConfig(result.data.userLogin.authToken),
   ))
+  walletId = await getDefaultWalletIdByTestUserIndex(USER_INDEX)
   const meResult = await apolloClient.query({ query: ME })
   expect(meResult.data.me.defaultAccount.defaultWalletId).toBe(walletId)
 })
